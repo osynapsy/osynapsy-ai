@@ -5,7 +5,7 @@
     "type": "library",
     "description": "Library for interface php with main AI service",
     "keywords": ["Library","AI"],
-    "license": "LGPLv3",
+    "license": "MIT",
     "authors": [
         {
             "name": "Pietro Celeste",
