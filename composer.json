@@ -1,0 +1,24 @@
+{
+    "name": "osynapsy.net/osynapsy-ai",
+    "version": "0.5",
+    "homepage": "http://www.osynapsy.org/",
+    "type": "library",
+    "description": "Library for interface php with main AI service",
+    "keywords": ["Library","AI"],
+    "license": "LGPLv3",
+    "authors": [
+        {
+            "name": "Pietro Celeste",
+            "email": "p.celeste@osynapsy.net",
+            "homepage": "https://github.com/osynapsy/osy-ai/wiki"
+        }
+    ],
+    "require": {
+        "php": ">=8.0"
+    },
+    "autoload" : {
+        "psr-4": {
+            "Osynapsy\\AI\\": "src/"
+        }
+    }
+}
