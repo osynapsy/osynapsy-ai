@@ -1,7 +1,8 @@
 <?php
 namespace Osynapsy\AI\OpenAI;
 
-use Osynapsy\Network\Rest;
+use Osynapsy\Rest\Client\JsonClient;
+use Osynapsy\Rest\Request\Request;
 use Osynapsy\AI\OpenAI\Model\ModelInterface;
 use Osynapsy\AI\OpenAI\Prompt\Prompt;
 use Osynapsy\AI\OpenAI\Prompt\PromptInterface;
@@ -11,7 +12,7 @@ class Client
     protected $version;
     protected $model;
     protected $key;
-    protected $cache = False;    
+    protected $cache = False;
 
     public function __construct(string $key, ?ModelInterface $model = null)
     {
@@ -26,12 +27,24 @@ class Client
 
     public function send(PromptInterface $prompt, $maxTokens = 1024)
     {
-        $body = $this->getModel()->buildRequest($prompt, $maxTokens);
-        $postMethod = $this->getModel()->useJson() ? 'postJson' : 'post';
-        $response = Rest::{$postMethod}($this->getModel()->getEndpoint(), $body, [], $this->key);
-        return $this->getModel()->getResponse($response['body']);
+        $body = $this->getModel()->buildRequest($prompt, $maxTokens);        
+        $Request = $this->restClientRequestFactory($this->getModel()->getEndpoint(), $body, $this->key);        
+        $response = $this->restClientFactory($Request);
+        return $this->getModel()->getResponse($response->content);
+    }
+    
+    protected function restClientRequestFactory($endpoint, $data, $token)
+    {
+        $Request = new Request(Request::POST, $endpoint, $data);
+        $Request->setAuthorizationToken($token);
+        return $Request;
     }
 
+    protected function restClientFactory($Request)
+    {
+        return (new JsonClient(false))->execute($Request);
+    }
+    
     public function promptFactory() : promptInterface
     {
         return new Prompt;
