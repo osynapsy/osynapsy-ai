@@ -29,8 +29,8 @@ class Client
     {
         $body = $this->getModel()->buildRequest($prompt, $maxTokens);        
         $Request = $this->restClientRequestFactory($this->getModel()->getEndpoint(), $body, $this->key);        
-        $Response = $this->restClientFactory($Request);        
-        return $this->getModel()->getResponse($Response->content);
+        $Response = $this->restClientFactory($Request);
+        return $this->getModel()->getResponse($Response->getBody());
     }
     
     protected function restClientRequestFactory($endpoint, $data, $token)
