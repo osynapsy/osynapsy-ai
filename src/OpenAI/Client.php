@@ -29,14 +29,14 @@ class Client
     {
         $body = $this->getModel()->buildRequest($prompt, $maxTokens);        
         $Request = $this->restClientRequestFactory($this->getModel()->getEndpoint(), $body, $this->key);        
-        $response = $this->restClientFactory($Request);
-        return $this->getModel()->getResponse($response->content);
+        $Response = $this->restClientFactory($Request);        
+        return $this->getModel()->getResponse($Response->content);
     }
     
     protected function restClientRequestFactory($endpoint, $data, $token)
     {
-        $Request = new Request(Request::POST, $endpoint, $data);
-        $Request->setAuthorizationToken($token);
+        $Request = new Request(Request::POST, $endpoint);
+        $Request->setAuthorizationToken($token)->setData($data);
         return $Request;
     }
 
